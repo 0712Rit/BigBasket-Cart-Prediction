@@ -10,10 +10,10 @@ def create_similarity_matrix(df):
     return sim_matrix
 
 def recommend_products(df, sim_matrix, product_name, top_n=5):
-    idx = df[df["product"].str.lower() == product_name.lower()].index
-    if len(idx) == 0:
+    idx_series = df[df["product"].str.lower() == product_name.lower()].index
+    if len(idx_series) == 0:
         return ["Product not found in dataset."]
-    idx = idx[0]
+    idx = idx_series[0]
     scores = list(enumerate(sim_matrix[idx]))
     scores = sorted(scores, key=lambda x: x[1], reverse=True)[1:top_n+1]
     recommended = [df.iloc[i[0]]["product"] for i in scores]
